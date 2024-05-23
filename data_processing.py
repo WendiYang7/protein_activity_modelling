@@ -10,11 +10,11 @@ target_query = target.search('ERBB')
 targets = pd.DataFrame.from_dict(target_query)
 # print(targets)
 selected_target = targets.target_chembl_id[0]
-# print(selected_target)
+print(selected_target)
 
 # %%
-# activity = new_client.activity
-# res = activity.filter(target_chembl_id=selected_target).filter(standard_type="IC50")
-# df = pd.DataFrame.from_dict(res)
-# print(df.head(3))
+activity = new_client.activity
+result = activity.filter(target_chembl_id=selected_target).filter(standard_type="AC50")
+df = pd.DataFrame.from_dict(result)
+print(df.head(3))
 # %%
