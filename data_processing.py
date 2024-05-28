@@ -20,7 +20,9 @@ df = pd.DataFrame.from_dict(result)
 
 # %%
 df.standard_type.unique()
-df.to_csv('bioactivity_data.csv', index=False)
+df.to_csv('data.csv', index=False)
+
 # %%
-export_csv = df.to_csv()
+df2 = df[df.standard_value.notna()]
+print(df2)
 # %%
