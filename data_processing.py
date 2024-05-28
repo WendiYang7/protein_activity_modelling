@@ -16,5 +16,11 @@ print(selected_target)
 activity = new_client.activity
 result = activity.filter(target_chembl_id=selected_target).filter(standard_type="AC50")
 df = pd.DataFrame.from_dict(result)
-print(df.head(3))
+#print(df.head(3))
+
+# %%
+df.standard_type.unique()
+df.to_csv('bioactivity_data.csv', index=False)
+# %%
+export_csv = df.to_csv()
 # %%
