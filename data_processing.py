@@ -35,4 +35,20 @@ for i in df2.standard_value:
     else:
         bioactivity_class.append("intermediate")
 # %%
+mol_cid = []
+for i in df2.molecule_chembl_id:
+    mol_cid.append(i)
+
+canonical_smiles = []
+for i in df2.canonical_smiles:
+    canonical_smiles.append(i)
+
+standard_value = []
+for i in df2.standard_value:
+    standard_value.append(i)
+
+data_tuples = list(zip(mol_cid, canonical_smiles, bioactivity_class, standard_value))
+df3 = pd.DataFrame(data_tuples, columns=('mol_cid', 'canonical_smiles', 'bioactivity_class', 'standard_value'))
+df3.to_csv('bioactivity_preprocessed_data.csv', index=False)
+
 # %%
