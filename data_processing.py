@@ -34,5 +34,5 @@ for i in df2.standard_value:
         bioactivity_class.append("active")
     else:
         bioactivity_class.append("intermediate")
-
+# %%
 # %%
