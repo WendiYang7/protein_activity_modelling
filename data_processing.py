@@ -26,3 +26,13 @@ df.to_csv('data.csv', index=False)
 df2 = df[df.standard_value.notna()]
 print(df2)
 # %%
+bioactivity_class = []
+for i in df2.standard_value:
+    if float(i) >= 10000:
+        bioactivity_class.append('inactive')
+    elif float(i) <= 1000:
+        bioactivity_class.append("active")
+    else:
+        bioactivity_class.append("intermediate")
+
+# %%
