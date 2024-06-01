@@ -50,8 +50,23 @@ def AC50(input):
         input['pAC50'] = pAC50
         x = input.drop('standard_value_norm', 1)
     
-        return x
-
-
-    
+        return x  
 # %%
+df_combined.standard_value.describe()
+# %%
+def norm_value(input):
+    norm = []
+
+    for i in input['standard value']:
+        if i > 100000000:
+            i = 100000000
+        norm.append(i)
+    
+    input['standard_value_norm'] = norm
+    x = input.drop('standard_value', 1)
+
+    return x
+# %%
+df_norm = norm_value(df_combined)
+df_final = pAC50(df_norm)
+df_final.pAC50.describe()
