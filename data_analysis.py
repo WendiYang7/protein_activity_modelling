@@ -82,3 +82,23 @@ plt.ylabel('Frequency', fontsize=14, fontweight='bold')
 
 plt.savefig('plot_bioactivity_class.pdf')
 # %%
+# scatter plotting, MV and LogP
+plt.figure(figsize=(5.5, 5.5))
+
+sns.scatterplot(x='MW', y='LogP', data=df_2class, hue='bioactivity_class', size='pAC50', edgecolor='black', alpha=0.7)
+
+plt.xlabel('MW', fontsize=14, fontweight='bold')
+plt.ylabel('LogP', fontsize=14, fontweight='bold')
+plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0)
+plt.savefig('plot_MW_vs_LogP.pdf')
+# %%
+# pAC50 value
+plt.figure(figsize=(5.5, 5.5))
+
+sns.boxplot(x = 'bioactivity_class', y = 'pAC50', data = df_2class)
+
+plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
+plt.ylabel('pAC50 value', fontsize=14, fontweight='bold')
+
+plt.savefig('plot_ac50.pdf')
+# %%
