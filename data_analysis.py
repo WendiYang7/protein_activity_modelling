@@ -65,4 +65,20 @@ def norm_value(input_df):
 df_norm = norm_value(df_combined)
 df_final = pAC50(df_norm)
 df_final.pAC50.describe()
+df_2class = df_final[df_final.bioactivity_class != 'intermediate']
+# %%
+# PART TWO
+import seaborn as sns
+sns.set(style='ticks')
+import matplotlib.pyplot as plt
+# %%
+# plotting the graph
+plt.figure(figsize=(5.5, 5.5))
+
+sns.countplot(x='bioactivity_class', data=df_2class, edgecolor='black')
+
+plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
+plt.ylabel('Frequency', fontsize=14, fontweight='bold')
+
+plt.savefig('plot_bioactivity_class.pdf')
 # %%
