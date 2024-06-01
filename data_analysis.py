@@ -5,7 +5,6 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors, Lipinski
 
 # %%
-
 df = pd.read_csv('bioactivity_preprocessed_data.csv')
 
 def lipinski(smiles, verbose = False):
@@ -40,33 +39,30 @@ def lipinski(smiles, verbose = False):
 df_lipinski = lipinski(df.canonical_smiles)
 df_combined = pd.concat([df,df_lipinski], axis = 1)
 
-def AC50(input):
-    pAC50 = []
-
-    for i in input['standard_value_norm']:
-        molar = i*10**-9
-        pAC50.append(-np.log10(molar))
-
-        input['pAC50'] = pAC50
-        x = input.drop('standard_value_norm', 1)
+def pAC50(input_df):
+    # Convert the normalized values to molar concentration
+    input_df['molar'] = input_df['standard_value_norm'] * (10**-9)
     
-        return x  
+    # Calculate the pAC50 values
+    input_df['pAC50'] = -np.log10(input_df['molar'])
+    
+    # Drop the intermediate columns
+    x = input_df.drop(columns=['standard_value_norm', 'molar'])
+    
+    return x
 # %%
 df_combined.standard_value.describe()
 # %%
-def norm_value(input):
-    norm = []
-
-    for i in input['standard value']:
-        if i > 100000000:
-            i = 100000000
-        norm.append(i)
-    
-    input['standard_value_norm'] = norm
-    x = input.drop('standard_value', 1)
+def norm_value(input_df):
+    # Apply a function to each element in the 'standard_value' column to normalize it
+    input_df['standard_value_norm'] = input_df['standard_value'].apply(lambda x: min(x, 100000000))
+   
+    # Drop the original 'standard_value' column
+    x = input_df.drop(columns=['standard_value'])
 
     return x
 # %%
 df_norm = norm_value(df_combined)
 df_final = pAC50(df_norm)
 df_final.pAC50.describe()
+# %%
