@@ -102,3 +102,85 @@ plt.ylabel('pAC50 value', fontsize=14, fontweight='bold')
 
 plt.savefig('plot_ac50.pdf')
 # %%
+def mannwhitney(descriptor, verbose=False):
+  # https://machinelearningmastery.com/nonparametric-statistical-significance-tests-in-python/
+  from numpy.random import seed
+  from numpy.random import randn
+  from scipy.stats import mannwhitneyu
+
+# seed the random number generator
+  seed(1)
+
+# actives and inactives
+  selection = [descriptor, 'bioactivity_class']
+  df = df_2class[selection]
+  active = df[df.bioactivity_class == 'active']
+  active = active[descriptor]
+
+  selection = [descriptor, 'bioactivity_class']
+  df = df_2class[selection]
+  inactive = df[df.bioactivity_class == 'inactive']
+  inactive = inactive[descriptor]
+
+# compare samples
+  stat, p = mannwhitneyu(active, inactive)
+  #print('Statistics=%.3f, p=%.3f' % (stat, p))
+
+# interpret
+  alpha = 0.05
+  if p > alpha:
+    interpretation = 'Same distribution (fail to reject H0)'
+  else:
+    interpretation = 'Different distribution (reject H0)'
+  
+  results = pd.DataFrame({'Descriptor':descriptor,
+                          'Statistics':stat,
+                          'p':p,
+                          'alpha':alpha,
+                          'Interpretation':interpretation}, index=[0])
+  filename = 'mannwhitneyu_' + descriptor + '.csv'
+  results.to_csv(filename)
+
+  return results
+
+# %%
+# MW
+plt.figure(figsize=(5.5, 5.5))
+
+sns.boxplot(x = 'bioactivity_class', y = 'MW', data = df_2class)
+
+plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
+plt.ylabel('MW', fontsize=14, fontweight='bold')
+
+plt.savefig('plot_MW.pdf')
+
+# %%
+# logP
+plt.figure(figsize=(5.5, 5.5))
+
+sns.boxplot(x = 'bioactivity_class', y = 'LogP', data = df_2class)
+
+plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
+plt.ylabel('LogP', fontsize=14, fontweight='bold')
+
+plt.savefig('plot_LogP.pdf')
+# %%
+# numhdonors
+plt.figure(figsize=(5.5, 5.5))
+
+sns.boxplot(x = 'bioactivity_class', y = 'NumHDonors', data = df_2class)
+
+plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
+plt.ylabel('NumHDonors', fontsize=14, fontweight='bold')
+
+plt.savefig('plot_NumHDonors.pdf')
+# %%
+# numhacceptors
+plt.figure(figsize=(5.5, 5.5))
+
+sns.boxplot(x = 'bioactivity_class', y = 'NumHAcceptors', data = df_2class)
+
+plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
+plt.ylabel('NumHAcceptors', fontsize=14, fontweight='bold')
+
+plt.savefig('plot_NumHAcceptors.pdf')
